@@ -1,0 +1,18 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY profile-service/package*.json ./
+
+RUN npm install
+
+COPY profile-service ./
+
+RUN npm run build
+
+COPY shared ./shared
+
+EXPOSE 3001
+
+CMD [ "npm","start" ]
+

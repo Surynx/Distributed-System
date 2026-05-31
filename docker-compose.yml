@@ -1,0 +1,66 @@
+services:
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./api-gateway/.env
+    depends_on:
+      - auth-service
+      - user-service
+      - profile-service
+
+  auth-service:
+    build: 
+      context: .
+      dockerfile: ./auth-service/dockerfile
+    ports:
+      - "3001:3001"
+    env_file:
+      - ./auth-service/.env
+
+  user-service:
+    build: 
+      context: .
+      dockerfile: ./user-service/dockerfile
+    ports:
+      - "3002:3002"
+    env_file:
+      - ./user-service/.env
+    depends_on:
+      - rabbitmq
+
+  profile-service:
+    build: 
+      context: .
+      dockerfile: ./profile-service/dockerfile
+    ports:
+      - "3003:3003"
+    env_file:
+      - ./profile-service/.env
+      
+  order-service:
+    build: ./order-service
+    ports:
+      - "3004:3004"
+    env_file:
+      - ./order-service/.env
+
+  notification-service:
+    build: ./notification-service
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+      interval: 5s
+      timeout: 5s
+      retries: 5

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "module": "commonjs",
+    "target": "esnext",
+
+    "typeRoots": ["src/@types", "./node_modules/@types"],
+
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["src", "src/middleware"],
+  "files": ["src/@types/express.d.ts"]
+}

@@ -1,0 +1,18 @@
+FROM node:20
+
+WORKDIR /app
+
+COPY auth-service/package*.json ./
+
+RUN npm install
+
+COPY auth-service ./
+
+RUN npm run build
+
+COPY shared ./shared
+
+EXPOSE 3001
+
+CMD [ "npm","start" ]
+
