@@ -1,8 +1,8 @@
-name: User Service CD
+name: Api-Gateway CD
 
 on:
   workflow_run:
-    workflows: ["User Service CI"]
+    workflows: ["Api-Gateway CI"]
     types:
       - completed
 
