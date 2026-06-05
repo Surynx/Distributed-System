@@ -1,8 +1,6 @@
 import express, { Request, Response } from "express";
-import { proxyHandler } from "../middleware/proxyHandler";
-import { createProxyMiddleware } from "http-proxy-middleware";
 import { verifyToken } from "../middleware/authMiddleware";
-import { CONFIG } from "../conf/env";
+import { authProxy, orderProxy, profileProxy, userProxy } from "../proxy/proxy";
 
 export const router = express.Router();
 
@@ -11,31 +9,10 @@ router.get("/",( req:Request ,res:Response )=>{
     res.send("API Gateway");
 });
 
-router.use("/auth",createProxyMiddleware({
-    target:CONFIG.SERVICES.AUTH,
-    changeOrigin:true,
-    on:{
-        proxyReq:(proxyreq,req,res) => {
+router.use("/auth",authProxy);
 
-            proxyreq.setHeader("x-service-key","secret@123");
-        }
-    }
-}));
+router.use("/user",verifyToken,userProxy);
 
-router.use("/user",verifyToken,createProxyMiddleware({
-    target:CONFIG.SERVICES.USER,
-    changeOrigin:true,
-    on:{ proxyReq:proxyHandler }
-}));
+router.use("/profile",verifyToken,profileProxy);
 
-router.use("/profile",verifyToken,createProxyMiddleware({
-    target:CONFIG.SERVICES.PROFILE,
-    changeOrigin:true,
-    on:{ proxyReq:proxyHandler }
-}));
-
-router.use("/order",verifyToken,createProxyMiddleware({
-    target:CONFIG.SERVICES.ORDER,
-    changeOrigin:true,
-    on:{ proxyReq:proxyHandler }
-}));
+router.use("/order",verifyToken,orderProxy);
