@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { proxyHandler } from "../middleware/proxyHandler";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { verifyToken } from "../middleware/authMiddleware";
-import { CONFIG } from "../conf/conf";
+import { CONFIG } from "../conf/env";
 
 export const router = express.Router();
 

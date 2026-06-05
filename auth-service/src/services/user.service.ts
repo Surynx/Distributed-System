@@ -7,13 +7,14 @@ export default class AuthService {
 
   private userModel;
   private tokenService;
+  private hashService;
 
 
-  constructor(userModel:Model<IUser> ,tokenService:any ) {
+  constructor(userModel:Model<IUser> ,tokenService:any,hashService:any ) {
 
     this.userModel = userModel;
     this.tokenService = tokenService;
-  
+    this.hashService = hashService;
   }
 
   registerUser = async(email: string, name:string, password: string) => {
@@ -26,9 +27,11 @@ export default class AuthService {
 
     console.log(mess);
 
+    let hashedPass = this.hashService.hashPassword(password);
+
     let user = await this.userModel.create({
       email,
-      password,
+      password : hashedPass,
       userId
     });
 
@@ -45,7 +48,7 @@ export default class AuthService {
       throw new Error("Please Register Your Account");
     }
 
-    const isMatch = password == user.password;
+    const isMatch = this.hashService.verify(password,user.password);
 
     if (!isMatch) {
       throw new Error("Invalid credentials");
@@ -63,6 +66,7 @@ export default class AuthService {
   };
 
   createUserProfile = async (email:string,name:string) => {
+
     try{
 
       let res:AxiosResponse = await axios.post(process.env.USER_SERVICE_URL!,{ email,name },{
