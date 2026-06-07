@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-
+import "dotenv/config"
 
 export const connectDB = async () => {
   try {
 
-    await mongoose.connect("mongodb+srv://sooryanarayanantr_db_user:Eq9rCOopjJu8gOuo@cluster0.ksovhvv.mongodb.net/user-db?appName=Cluster0");
+    await mongoose.connect(`${process.env.USER_MONGO_URL}`);
     console.log("connected to userDB");
 
   } catch (error) { 

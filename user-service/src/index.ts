@@ -15,4 +15,4 @@ connectDB();
 
 startGrpcServer(grpcHandler);
 
-app.listen(process.env.USER_PORT,()=>console.log(`user service running at ${process.env.PORT}`));
+app.listen(process.env.USER_PORT,()=>console.log(`user service running at ${process.env.USER_PORT}`));

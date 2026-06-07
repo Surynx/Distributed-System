@@ -15,7 +15,7 @@ connectDB();
 
 startGrpcServer(grpcHandler);
 
-app.listen(process.env.AUTH_PORT,()=>console.log(`Auth service running at ${process.env.PORT}`));
+app.listen(process.env.AUTH_PORT,()=>console.log(`Auth service running at ${process.env.AUTH_PORT}`));
 
 
 
