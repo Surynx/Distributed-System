@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-service
+  name: order-service
 
 spec:
   replicas: 2
@@ -14,23 +14,23 @@ spec:
 
   selector:
     matchLabels:
-      app: auth-service
+      app: order-service
 
   template:
     metadata:
       labels:
-        app: auth-service
+        app: order-service
 
     spec:
       containers:
-        - name: auth-service
-          image: auth-service:latest
+        - name: order-service
+          image: order-service:latest
 
           ports:
-            - containerPort: 3001
+            - containerPort: 3004
 
           envFrom:
             - configMapRef:
-                name: auth-service-config
+                name: order-service-config
             - secretRef:
-                name: app-secrets
+                name: order-secrets
