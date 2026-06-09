@@ -25,6 +25,7 @@ spec:
       containers:
         - name: order-service
           image: order-service:latest
+          imagePullPolicy: Never
 
           ports:
             - containerPort: 3004
@@ -33,4 +34,4 @@ spec:
             - configMapRef:
                 name: order-service-config
             - secretRef:
-                name: order-secrets
+                name: app-secrets

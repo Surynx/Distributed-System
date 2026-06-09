@@ -25,6 +25,7 @@ spec:
       containers:
         - name: profile-service
           image: profile-service:latest
+          imagePullPolicy: Never
 
           ports:
             - containerPort: 3003
